@@ -126,9 +126,18 @@ class GlApp {
         // create a texture, and upload a temporary 1px white RGBA array [255,255,255,255]
         let texture = this.gl.createTexture();
 
-        //
-        // TODO: set texture parameters and upload a temporary 1px white RGBA array [255,255,255,255]
-        // 
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        this.gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        this.gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        this.gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+        this.gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+
+        let pixels = [255, 255, 255, 255];
+
+        this.gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(pixels));
+
+
+
 
         // download the actual image
         let image = new Image();
@@ -143,9 +152,9 @@ class GlApp {
     }
 
     updateTexture(texture, image_element) {
-        //
-        // TODO: update image for specified texture
-        //
+        this.gl.bindTexture(gl.TEXTURE_2D, texture); // Bind texture
+        this.gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image_element); // Set image texture of the pixel
+        this.gl.bindTexture(gl.TEXTURE_2D, null); // Unbind texture
     }
 
     render() {
@@ -155,7 +164,6 @@ class GlApp {
         // draw all models
         for (let i = 0; i < this.scene.models.length; i ++) {
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
-            
             //
             // TODO: properly select shader here
             //
