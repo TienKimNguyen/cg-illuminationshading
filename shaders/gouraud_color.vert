@@ -30,13 +30,13 @@ void main() {
     vec3 ambient = light_ambient * light_color;
 
     // Diffuse
-    
-    vec3 light_direction = normalize(light_position - gl_Position);
+
+    vec3 light_direction = normalize(light_position - vertex_position);
     vec3 diffuse = light_ambient * dot(vertex_normal, light_direction);
 
     // Specular
 
     vec3 reflection_light = 2.0 * dot(vertex_normal, light_direction) * vertex_normal - light_direction;
-    vec3 view_direction = normalize (camera_position - gl_Position);
+    vec3 view_direction = normalize (camera_position - vertex_position);
     vec3 specular = light_ambient * pow (dot(reflection_light, view_direction), material_shininess);    
 }
