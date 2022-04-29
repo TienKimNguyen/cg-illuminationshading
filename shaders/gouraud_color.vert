@@ -1,11 +1,5 @@
 #version 300 es
 
-//  Curved models are approximated with many flat polygons
-//	Define normal per vertex
-//	Use vertex normals in lighting equations
-//	to determine a color per vertex
-//  Interpolate colors across polygon
-
 precision highp float;
 
 in vec3 vertex_position;
@@ -27,8 +21,22 @@ out vec3 specular;
 
 
 void main() {
+    // The current vertex position
+
     gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vertex_position, 1.0);
-    ambient = light_ambient;
-    vec3 l = normalize(light_position - vertex_position);
+
+    // Ambient  
+
+    vec3 ambient = light_ambient * light_color;
+
+    // Diffuse
     
+    vec3 light_direction = normalize(light_position - gl_Position);
+    vec3 diffuse = light_ambient * dot(vertex_normal, light_direction);
+
+    // Specular
+
+    vec3 reflection_light = 2.0 * dot(vertex_normal, light_direction) * vertex_normal - light_direction;
+    vec3 view_direction = normalize (camera_position - gl_Position);
+    vec3 specular = light_ambient * pow (dot(reflection_light, view_direction), material_shininess);    
 }
