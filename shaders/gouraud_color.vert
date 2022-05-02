@@ -22,20 +22,20 @@ out vec3 specular;
 
 void main() {
     // Vertex and normal in model_matrix.
-    vec3 model_pos = vec3(model_matrix * vec4(vertex_position, 1.0));
-    vec3 model_normal = vec3(model_matrix * vec4(vertex_normal, 0.0));
+    vec3 world_pos = vec3(model_matrix * vec4(vertex_position, 1.0));
+    vec3 world_normal = vec3(model_matrix * vec4(vertex_normal, 0.0));
 
     // Ambient  
-    vec3 ambient = light_ambient * light_color;
+    ambient = light_ambient * light_color;
 
     // Diffuse
-    vec3 light_direction = normalize(light_position - model_pos);
-    vec3 diffuse = light_ambient * light_color * dot(model_normal, light_direction);
+    vec3 light_direction = normalize(light_position - world_pos);
+    diffuse = light_ambient * light_color * max(dot(world_normal, light_direction), 0.0);
 
     // Specular
-    vec3 reflection_light = 2.0 * dot(model_normal, light_direction) * model_normal - light_direction;
-    vec3 view_direction = normalize (camera_position - model_pos);
-    vec3 specular = light_ambient * light_color * pow (dot(reflection_light, view_direction), material_shininess);    
+    vec3 reflection_light = 2.0 * max(dot(world_normal, light_direction), 0.0) * world_normal - light_direction;
+    vec3 view_direction = normalize (camera_position - world_pos);
+    specular = light_ambient * light_color * pow(max(dot(reflection_light, view_direction), 0.0), material_shininess);    
 
     // The 3d display position
     gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vertex_position, 1.0);
