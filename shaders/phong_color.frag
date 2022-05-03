@@ -18,10 +18,10 @@ out vec4 FragColor;
 void main() {
     vec3 light_direction = normalize(light_position - frag_pos);
     vec3 ambient = light_ambient * material_color;
-    vec3 diffuse = light_ambient * material_color * dot(light_direction, frag_normal);
+    vec3 diffuse = light_ambient * material_color * max(dot(light_direction, frag_normal), 0.0);
     vec3 reflection_light = 2.0 * dot(frag_normal, light_direction) * frag_normal - light_direction;
     vec3 view_direction = normalize (camera_position - frag_pos);
-    vec3 specular = light_ambient * material_specular * pow (dot(reflection_light, view_direction), material_shininess);
+    vec3 specular = light_ambient * material_specular * pow (max(dot(reflection_light, view_direction), 0.0), material_shininess);
     vec3 intensity = ambient + diffuse + specular;
     FragColor = vec4(light_color * intensity, 1.0);
 }
