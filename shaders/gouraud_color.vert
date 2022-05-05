@@ -23,7 +23,7 @@ out vec3 specular;
 void main() {
     // Vertex and normal in model_matrix.
     vec3 world_pos = vec3(model_matrix * vec4(vertex_position, 1.0));
-    vec3 world_normal = vec3(model_matrix * vec4(vertex_normal, 0.0));
+    vec3 world_normal = normalize(vec3(model_matrix * vec4(vertex_normal, 0.0)));
 
     // Ambient  
     ambient = light_ambient * light_color;
