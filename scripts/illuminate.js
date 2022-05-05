@@ -164,18 +164,24 @@ class GlApp {
         // draw all models
         for (let i = 0; i < this.scene.models.length; i++) {
             let selected_shader = 'emissive';
-            let texture_bool = false;
-            if (this.algorithm == 'gouraud' && this.scene.models[i].shader == 'color') {
-                selected_shader = 'gouraud_color';
-            } else if (this.algorithm == 'gouraud' && this.scene.models[i].shader == 'texture') {
-                selected_shader = 'gouraud_texture';
-                texture_bool = true;
-            } else if (this.algorithm == 'phong' && this.scene.models[i].shader == 'color') {
-                selected_shader = 'phong_color';
+            if (this.scene.models[i].shader == 'color') {
+                if (this.algorithm == 'gouraud'){
+                    selected_shader = 'gouraud_color';
+                } else {
+                    selected_shader = 'phong_color';
+                }
+               
             } else {
-                selected_shader = 'phong_texture';
-                texture_bool = true;
+                this.gl.uniform3fv(this.shader[selected_shader].uniforms.texture_scale, this.scene.models[i].texture.scale);
+                this.initializeTexture(this.scene.models[i].texture.url);
+                
+                if (this.algorithm == 'gouraud'){
+                    selected_shader = 'gouraud_texture';
+                } else {
+                    selected_shader = 'phong_texture';
+                }
             }
+
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
             this.gl.useProgram(this.shader[selected_shader].program);
 
