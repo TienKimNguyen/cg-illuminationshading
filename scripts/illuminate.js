@@ -126,18 +126,15 @@ class GlApp {
         // create a texture, and upload a temporary 1px white RGBA array [255,255,255,255]
         let texture = this.gl.createTexture();
 
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        this.gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        this.gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        this.gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-        this.gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
+        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
+        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.REPEAT);
+        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.REPEAT);
 
         let pixels = [255, 255, 255, 255];
 
-        this.gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(pixels));
-
-
-
+        this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, 1, 1, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, new Uint8Array(pixels));
 
         // download the actual image
         let image = new Image();
@@ -152,9 +149,9 @@ class GlApp {
     }
 
     updateTexture(texture, image_element) {
-        this.gl.bindTexture(gl.TEXTURE_2D, texture); // Bind texture
-        this.gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image_element); // Set image texture of the pixel
-        this.gl.bindTexture(gl.TEXTURE_2D, null); // Unbind texture
+        this.gl.bindTexture(this.gl.TEXTURE_2D, texture); // Bind texture
+        this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, image_element); // Set image texture of the pixel
+        this.gl.bindTexture(this.gl.TEXTURE_2D, null); // Unbind texture
     }
 
     render() {
@@ -165,17 +162,13 @@ class GlApp {
         for (let i = 0; i < this.scene.models.length; i++) {
             let selected_shader = 'emissive';
             if (this.scene.models[i].shader == 'color') {
-                if (this.algorithm == 'gouraud'){
+                if (this.algorithm == 'gouraud') {
                     selected_shader = 'gouraud_color';
                 } else {
                     selected_shader = 'phong_color';
                 }
-               
             } else {
-                this.gl.uniform3fv(this.shader[selected_shader].uniforms.texture_scale, this.scene.models[i].texture.scale);
-                this.initializeTexture(this.scene.models[i].texture.url);
-                
-                if (this.algorithm == 'gouraud'){
+                if (this.algorithm == 'gouraud') {
                     selected_shader = 'gouraud_texture';
                 } else {
                     selected_shader = 'phong_texture';
@@ -206,19 +199,22 @@ class GlApp {
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.camera_position, this.scene.camera.position);
 
-            //
-            // TODO: bind proper texture and set uniform (if shader is a textured one)
-            //
-
-
-
+            if (this.scene.models[i].shader == "texture"){
+                this.gl.uniform2fv(this.shader[selected_shader].uniforms.texture_scale, this.scene.models[i].texture.scale);
+                
+                let sampler_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
+                this.gl.activeTexture(this.gl.TEXTURE0);
+                this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
+                this.gl.uniform1i(sampler_uniform, 0);    
+            }
+            
             this.gl.bindVertexArray(this.vertex_array[this.scene.models[i].type]);
             this.gl.drawElements(this.gl.TRIANGLES, this.vertex_array[this.scene.models[i].type].face_index_count, this.gl.UNSIGNED_SHORT, 0);
             this.gl.bindVertexArray(null);
         }
 
         // draw all light sources
-        for (let i = 0; i < this.scene.light.point_lights.length; i ++) {
+        for (let i = 0; i < this.scene.light.point_lights.length; i++) {
             this.gl.useProgram(this.shader['emissive'].program);
 
             glMatrix.mat4.identity(this.model_matrix);
@@ -240,10 +236,10 @@ class GlApp {
     updateScene(scene) {
         // update scene
         this.scene = scene;
-        
+
         // set the background color
         this.gl.clearColor(this.scene.background[0], this.scene.background[1], this.scene.background[2], 1.0);
-        
+
         // update view matrix based on camera properties
         let cam_pos = this.scene.camera.position;
         let cam_target = this.scene.camera.target;
@@ -265,12 +261,12 @@ class GlApp {
     getFile(url) {
         return new Promise((resolve, reject) => {
             let req = new XMLHttpRequest();
-            req.onreadystatechange = function() {
+            req.onreadystatechange = function () {
                 if (req.readyState === 4 && req.status === 200) {
                     resolve(req.response);
                 }
                 else if (req.readyState === 4) {
-                    reject({url: req.responseURL, status: req.status});
+                    reject({ url: req.responseURL, status: req.status });
                 }
             };
             req.open('GET', url, true);

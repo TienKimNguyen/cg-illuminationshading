@@ -14,7 +14,7 @@ function init() {
                 models: [
                     {
                         type: 'plane',
-                        shader: 'color',
+                        shader: 'texture',
                         material: {
                             color: vec3.fromValues(0.7, 0.1, 0.1),  // red, green, blue
                             specular: vec3.fromValues(0.0, 0.0, 0.0),  // red, green, blue
@@ -24,7 +24,12 @@ function init() {
                         size: vec3.fromValues(8.0, 1.0, 8.0),  // width, 1.0, depth
                         rotate_x: 0,
                         rotate_y: 0,
-                        rotate_z: 0
+                        rotate_z: 0,
+                        texture: {
+                            url: "images/Checkered.jpg",
+                            scale: vec2.fromValues(1.0, 1.0),
+                            id: null,
+                        }
                     },
                     {
                         type: 'sphere',

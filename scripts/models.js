@@ -395,5 +395,17 @@ function createSphereVertexArray(gl, position_attrib, normal_attrib, texcoord_at
 //         - minimum of 16 vertices
 //
 function createCustomVertexArray(gl, position_attrib, normal_attrib, texcoord_attrib) {
-    return null;
+    // create a new Vertex Array Object
+    let vertex_array = gl.createVertexArray();
+    // set newly created Vertex Array Object as the active one we are modifying
+    gl.bindVertexArray(vertex_array);
+
+
+    
+    // create buffer to store vertex positions (3D points)
+    let vertex_position_buffer = gl.createBuffer();
+    // set newly created buffer as the active one we are modifying
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertex_position_buffer);
+    
+    return vertex_array;
 }
