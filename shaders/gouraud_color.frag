@@ -12,9 +12,6 @@ uniform vec3 material_specular; // Ks
 out vec4 FragColor;
 
 void main() {
-    // Initialize intensity variables
-
     vec3 intensity = (ambient * material_color) + (diffuse * material_color) + (specular * material_specular);
-
     FragColor = vec4(intensity, 1.0);
 }

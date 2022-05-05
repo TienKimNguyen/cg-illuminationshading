@@ -18,5 +18,21 @@ uniform sampler2D image;          // use in conjunction with Ka and Kd
 out vec4 FragColor;
 
 void main() {
-    FragColor = vec4(material_color, 1.0) * texture(image, frag_texcoord);
+    vec3 L = normalize(light_position - frag_pos); // Light direction
+    vec3 N = normalize(frag_normal);
+
+    // Ambient
+    vec3 ambient = light_ambient * material_color;
+
+    // Diffuse
+    vec3 diffuse = light_ambient * material_color * max(dot(L, N), 0.0);
+    //vec3 diffuse = light_ambient * material_color * dot(L, N);
+    // Specular
+    vec3 reflection_light = 2.0 * dot(N, L) * N - L;
+    //vec3 reflection_light = normalize(-reflect(L, N))
+    vec3 view_direction = normalize (camera_position - frag_pos);
+    vec3 specular = light_ambient * material_specular * pow (max(dot(reflection_light, view_direction), 0.0), material_shininess);
+    
+    vec3 intensity = ambient + diffuse + specular;
+    FragColor = vec4(intensity * light_color, 1.0) * texture(image, frag_texcoord);
 }

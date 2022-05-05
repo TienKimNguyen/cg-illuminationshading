@@ -160,7 +160,7 @@ class GlApp {
 
         // draw all models
         for (let i = 0; i < this.scene.models.length; i++) {
-            let selected_shader = 'emissive';
+            let selected_shader = '';
             if (this.scene.models[i].shader == 'color') {
                 if (this.algorithm == 'gouraud') {
                     selected_shader = 'gouraud_color';
@@ -199,15 +199,22 @@ class GlApp {
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.camera_position, this.scene.camera.position);
 
-            if (this.scene.models[i].shader == "texture"){
+            if (this.scene.models[i].shader == "texture") {
                 this.gl.uniform2fv(this.shader[selected_shader].uniforms.texture_scale, this.scene.models[i].texture.scale);
+
                 
-                let sampler_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
-                this.gl.activeTexture(this.gl.TEXTURE0);
-                this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
-                this.gl.uniform1i(sampler_uniform, 0);    
+                if (this.scene.models[i].type == "plane") {
+                    let sampler_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
+                    this.gl.activeTexture(this.gl.TEXTURE0);
+                    this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
+                    this.gl.uniform1i(sampler_uniform, 0);
+                } else if (this.scene.models[i].type == "sphere") {
+                    let sampler_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
+                    this.gl.activeTexture(this.gl.TEXTURE1);
+                    this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
+                    this.gl.uniform1i(sampler_uniform, 1);
+                }
             }
-            
             this.gl.bindVertexArray(this.vertex_array[this.scene.models[i].type]);
             this.gl.drawElements(this.gl.TRIANGLES, this.vertex_array[this.scene.models[i].type].face_index_count, this.gl.UNSIGNED_SHORT, 0);
             this.gl.bindVertexArray(null);

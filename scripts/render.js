@@ -33,7 +33,7 @@ function init() {
                     },
                     {
                         type: 'sphere',
-                        shader: 'color',
+                        shader: 'texture',
                         material: {
                             color: vec3.fromValues(0.1, 0.4, 0.9),  // red, green, blue
                             specular: vec3.fromValues(1.0, 1.0, 1.0),  // red, green, blue
@@ -43,7 +43,12 @@ function init() {
                         size: vec3.fromValues(2.0, 2.0, 2.0),  // width, height, depth
                         rotate_x: 0,
                         rotate_y: 0,
-                        rotate_z: 0
+                        rotate_z: 0,
+                        texture: {
+                            url: "images/World_Map.jpg",
+                            scale: vec2.fromValues(1.0, 1.0),
+                            id: null,
+                        }
                     }
                 ],
                 light: {
@@ -52,6 +57,10 @@ function init() {
                         {
                             position: vec3.fromValues(1.5, 3.0, -4.5),  // x, y, z
                             color: vec3.fromValues(1.0, 1.0, 0.8)  // red, green, blue
+                        },
+                        {
+                            position: vec3.fromValues(-1.5, 3.0, -4.5),  // x, y, z
+                            color: vec3.fromValues(1.0, 0.5, 0.65)  // red, green, blue
                         }
                     ]
                 }

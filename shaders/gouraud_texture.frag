@@ -15,5 +15,5 @@ out vec4 FragColor;
 
 void main() {
     vec3 light = ambient * material_color + diffuse * material_color + specular * material_specular;
-    FragColor = vec4(light, 1.0) + texture(image, frag_texcoord);
+    FragColor = vec4(light, 1.0) * texture(image, frag_texcoord);
 }
