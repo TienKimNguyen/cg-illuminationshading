@@ -218,14 +218,15 @@ class GlApp {
         }
 
         // draw all light sources
-        for (let i = 0; i < this.scene.light.point_lights.length; i++) {
+        for (let i = 0; i < this.scene.light.point_lights.length; i ++) {
             this.gl.useProgram(this.shader['emissive'].program);
 
             glMatrix.mat4.identity(this.model_matrix);
             glMatrix.mat4.translate(this.model_matrix, this.model_matrix, this.scene.light.point_lights[i].position);
             glMatrix.mat4.scale(this.model_matrix, this.model_matrix, glMatrix.vec3.fromValues(0.1, 0.1, 0.1));
 
-            this.gl.uniform3fv(this.shader[selected_shader].uniforms.material_color, this.scene.light.point_lights[i].color);
+
+            this.gl.uniform3fv(this.shader['emissive'].uniforms.material_color, this.scene.light.point_lights[i].color);
             this.gl.uniformMatrix4fv(this.shader['emissive'].uniforms.projection_matrix, false, this.projection_matrix);
             this.gl.uniformMatrix4fv(this.shader['emissive'].uniforms.view_matrix, false, this.view_matrix);
             this.gl.uniformMatrix4fv(this.shader['emissive'].uniforms.model_matrix, false, this.model_matrix);
@@ -239,10 +240,10 @@ class GlApp {
     updateScene(scene) {
         // update scene
         this.scene = scene;
-
+        
         // set the background color
         this.gl.clearColor(this.scene.background[0], this.scene.background[1], this.scene.background[2], 1.0);
-
+        
         // update view matrix based on camera properties
         let cam_pos = this.scene.camera.position;
         let cam_target = this.scene.camera.target;
@@ -264,12 +265,12 @@ class GlApp {
     getFile(url) {
         return new Promise((resolve, reject) => {
             let req = new XMLHttpRequest();
-            req.onreadystatechange = function () {
+            req.onreadystatechange = function() {
                 if (req.readyState === 4 && req.status === 200) {
                     resolve(req.response);
                 }
                 else if (req.readyState === 4) {
-                    reject({ url: req.responseURL, status: req.status });
+                    reject({url: req.responseURL, status: req.status});
                 }
             };
             req.open('GET', url, true);
