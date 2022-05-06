@@ -202,18 +202,21 @@ class GlApp {
             if (this.scene.models[i].shader == "texture") {
                 this.gl.uniform2fv(this.shader[selected_shader].uniforms.texture_scale, this.scene.models[i].texture.scale);
 
-                
+                let sampler_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
+
                 if (this.scene.models[i].type == "plane") {
-                    let sampler_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
                     this.gl.activeTexture(this.gl.TEXTURE0);
                     this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
                     this.gl.uniform1i(sampler_uniform, 0);
                 } else if (this.scene.models[i].type == "sphere") {
-                    let sampler_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
                     this.gl.activeTexture(this.gl.TEXTURE1);
                     this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
                     this.gl.uniform1i(sampler_uniform, 1);
-                }
+                } else if (this.scene.models[i].type == "cube") {
+                    this.gl.activeTexture(this.gl.TEXTURE2);
+                    this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
+                    this.gl.uniform1i(sampler_uniform, 2);
+                } 
             }
             this.gl.bindVertexArray(this.vertex_array[this.scene.models[i].type]);
             this.gl.drawElements(this.gl.TRIANGLES, this.vertex_array[this.scene.models[i].type].face_index_count, this.gl.UNSIGNED_SHORT, 0);
