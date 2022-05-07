@@ -192,7 +192,9 @@ class GlApp {
                 }
             }
 
-
+            console.log(colors);
+            console.log(positions);
+            
             // transform model to proper position, size, and orientation
             glMatrix.mat4.identity(this.model_matrix);
             glMatrix.mat4.translate(this.model_matrix, this.model_matrix, this.scene.models[i].center);
@@ -212,8 +214,8 @@ class GlApp {
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_ambient, this.scene.light.ambient);
            // this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, this.scene.light.point_lights[0].position);
           //  this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
-           //   this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, positions);
-           //   this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, colors);
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms['light_position[10]'], positions);
+            this.gl.uniform3fv(this.shader[selected_shader].uniforms['light_color[10]'], colors);
 
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.camera_position, this.scene.camera.position);
 

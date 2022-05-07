@@ -23,11 +23,14 @@ out vec3 specular;
 
 
 void main() {
-    for (int i = 0; i < 10; i++) {
-        // Vertex and normal in model_matrix.
-        vec3 world_pos = vec3(model_matrix * vec4(vertex_position, 1.0));
-        vec3 world_normal = normalize(vec3(model_matrix * vec4(vertex_normal, 0.0)));
+    // Vertex and normal in model_matrix.
+    vec3 world_pos = vec3(model_matrix * vec4(vertex_position, 1.0));
+    vec3 world_normal = normalize(vec3(model_matrix * vec4(vertex_normal, 0.0)));
+    ambient = vec3(0.0, 0.0, 0.0);
+    diffuse = vec3(0.0, 0.0, 0.0);
+    specular = vec3(0.0, 0.0, 0.0);
 
+    for (int i = 0; i < 10; i++) {
         vec3 curr_light_pos = light_position[i];
         vec3 curr_light_color = light_color[i];
 
