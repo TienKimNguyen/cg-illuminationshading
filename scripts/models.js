@@ -401,13 +401,136 @@ function createCustomVertexArray(gl, position_attrib, normal_attrib, texcoord_at
     gl.bindVertexArray(vertex_array);
 
     // create array of 3D vertex values (each set of 3 values specifies a vertex: x, y, z)
-    let vertices = [];
+    let vertices = [
+        // Back face
+        -2, -2, 2, // bot left
+        2, -2, 2, // bot right
+        2, 2, 2, // top right
+        -2, 2, 2, // top left
+
+        // Right 1
+        2, -2, 2, 
+        5, -2, 4,
+        5, 2, 4,
+        2, 2, 2, 
+
+        // Right 2
+        5, -2, 4,
+        6, -2, 6,
+        6, 2, 6,
+        5, 2, 4,
+
+        // Right 3
+        6, -2, 6,
+        5, -2, 9,
+        5, 2, 9,
+        6, 2, 6,
+
+        // Right 4
+        5, -2, 9,
+        3, -2, 11,
+        3, 2, 11,
+        5, 2, 9,
+
+        // Right 5
+        3, -2, 11,
+        0, -2, 13,
+        0, 2, 13,
+        3, 2, 11,
+
+        // Front
+        0, -2, 13,
+        -2, -2, 13,
+        -2, 2, 13,
+        0, 2, 13,
+
+        // Connect Front and Back
+        -2, -2, 2, 
+        -2, -2, 13,
+        -2, 2, 13,
+        -2, 2, 2, 
+
+    ];
     // create array of 3D vector values (each set of 3 values specifies a normalized vector: x, y, z)
-    let normals = [];
+    let normals = [
+        // Back
+        0.0, 0.0, -1.0,
+        0.0, 0.0, -1.0,
+        0.0, 0.0, -1.0,
+        0.0, 0.0, -1.0,
+
+        // Right 1
+        0.2, 0.0, -0.8,
+        0.2, 0.0, -0.8,
+        0.2, 0.0, -0.8,
+        0.2, 0.0, -0.8,
+
+        // Right 2
+        0.4, 0.0, -0.6,
+        0.4, 0.0, -0.6,
+        0.4, 0.0, -0.6,
+        0.4, 0.0, -0.6,
+
+        // Right 3
+        0.6, 0.0, -0.4,
+        0.6, 0.0, -0.4,
+        0.6, 0.0, -0.4,
+        0.6, 0.0, -0.4,
+
+        // Right 4
+        0.8, 0.0, -0.2,
+        0.8, 0.0, -0.2,
+        0.8, 0.0, -0.2,
+        0.8, 0.0, -0.2,
+
+        // Right 5
+        1.0, 0.0, -0.0,
+        1.0, 0.0, -0.0,
+        1.0, 0.0, -0.0,
+        1.0, 0.0, -0.0,
+
+        // Front 
+        0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0,
+
+        // Connect
+        1.0, 0.0, 1.0,
+        1.0, 0.0, 1.0,
+        1.0, 0.0, 1.0,
+        1.0, 0.0, 1.0
+        
+    ];
     // create array of vertex indices (each set of 3 represents a triangle)
-    let indices = [];
+    let indices = [
+        0, 1, 2,        0, 2, 3,      // Back
+        4, 5, 6,        4, 6, 7,      // Right 1  
+        8, 9, 10,       8, 10, 11,    // Right 2
+        12, 13, 14,     12, 14, 15,   // Right 3
+        16, 17, 18,     16, 18, 19,   // Right 4
+        20, 21, 22,     20, 22, 23,    // Right 5
+        24, 25, 26,     24, 26, 27,    // Front
+        28, 29, 30,     28, 30, 31,    // Connect
+
+
+
+    ];
     // create array of 2D texture coordinate values (each set of 2 values specifies texture coordinate: u, v)
-    let texcoords = [];
+    let texcoords = [
+        // Front
+        0.0, 0.0,
+        1.0, 0.0,
+        1.0, 1.0,
+        0.0, 1.0,
+
+        // Right 1
+        0.0, 0.0,
+        1.0, 0.0,
+        1.0, 1.0,
+        0.0, 1.0,
+        
+    ];
 
     // VERTICES
     // create buffer to store vertex positions (3D points)

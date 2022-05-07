@@ -194,6 +194,7 @@ class GlApp {
 
             console.log(colors);
             console.log(positions);
+
             
             // transform model to proper position, size, and orientation
             glMatrix.mat4.identity(this.model_matrix);
