@@ -177,7 +177,7 @@ class GlApp {
 
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
             this.gl.useProgram(this.shader[selected_shader].program);
-
+            
             // transform model to proper position, size, and orientation
             glMatrix.mat4.identity(this.model_matrix);
             glMatrix.mat4.translate(this.model_matrix, this.model_matrix, this.scene.models[i].center);
