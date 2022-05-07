@@ -390,10 +390,7 @@ function createSphereVertexArray(gl, position_attrib, normal_attrib, texcoord_at
     return vertex_array;
 }
 
-//
-// TODO: create a custom 3D model
-//         - minimum of 16 vertices
-//
+// Create an octagon (16 vertices total, 8 sides)
 function createCustomVertexArray(gl, position_attrib, normal_attrib, texcoord_attrib) {
     // create a new Vertex Array Object
     let vertex_array = gl.createVertexArray();
@@ -408,6 +405,126 @@ function createCustomVertexArray(gl, position_attrib, normal_attrib, texcoord_at
     let indices = [];
     // create array of 2D texture coordinate values (each set of 2 values specifies texture coordinate: u, v)
     let texcoords = [];
+
+    let radius = 0.5;
+    let theta = 360 / 8;
+
+    let top_vertices = [0.0, 0.5, 0.0];
+    let bottom_vertices = [0.0, - 0.5, 0.0];
+
+    let top_normals = [0.0, 1.0, 0.0];
+    let bottom_normals = [0.0, -1.0, 0.0];
+
+    // Loop for sides
+    for (let i = 0; i < 8; i++) {
+        let x1 = Math.cos((Math.PI / 180) * i * theta) * radius;
+        let x2 = Math.cos((Math.PI / 180) * (i + 1) * theta) * radius;
+        let z1 = Math.sin((Math.PI / 180) * i * theta) * radius;
+        let z2 = Math.sin((Math.PI / 180) * (i + 1) * theta) * radius;
+        let y_top = 0.5;
+        let y_bottom = -0.5;
+    
+        // Vertices
+        vertices.push(
+            x1, y_bottom, z1,
+            x2, y_bottom, z2,
+            x2, y_top, z2,
+            x1, y_top, z1
+        );
+        top_vertices.push(x1, y_top, z1);
+        bottom_vertices.push(x1, y_bottom, z1);
+
+        // Normals
+        let x_normal = Math.cos((Math.PI / 180) * (i + 0.5) * theta) * radius;
+        let z_normal = Math.sin((Math.PI / 180) * (i + 0.5) * theta) * radius;
+        normals.push(
+            x_normal, 0, z_normal,
+            x_normal, 0, z_normal,
+            x_normal, 0, z_normal,
+            x_normal, 0, z_normal
+        );
+        top_normals.push(0.0, 1.0, 0.0);
+        bottom_normals.push(0.0, -1.0, 0.0);
+
+        // Texture coordinates
+        texcoords.push(
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 1.0,
+            0.0, 1.0
+        );
+
+        // Indices
+        indices.push(
+            i * 4, i * 4 + 1, i * 4 + 2,    i * 4, i * 4 + 2, i * 4 + 3
+        );
+    }
+
+    // Top and bottom of octagon
+    for (let i = 0; i < top_vertices.length; i++){
+        vertices.push(top_vertices[i]);
+    }
+    for (let i = 0; i < bottom_vertices.length; i++){
+        vertices.push(bottom_vertices[i]);
+    }
+    for (let i = 0; i < top_normals.length; i++){
+        normals.push(top_normals[i]);
+    }
+    for (let i = 0; i < bottom_normals.length; i++){
+        normals.push(bottom_normals[i]);
+    }
+
+    let top_center_index = (indices.length / 6) * 4;
+    for (let j = 0; j < 8; j++) {
+        if (j == 7) {
+            indices.push(top_center_index, top_center_index + j + 1, top_center_index + 1);
+        } else {
+            indices.push(top_center_index, top_center_index + j + 1, top_center_index + j + 2);
+        }
+    }
+
+    let bottom_center_index = top_center_index + 9;
+    for (let j = 0; j < 8; j++) {
+        if (j == 7) {
+            indices.push(bottom_center_index, bottom_center_index + j + 1, bottom_center_index + 1);
+        } else {
+            indices.push(bottom_center_index, bottom_center_index + j + 1, bottom_center_index + j + 2);
+        }
+    }
+
+    texcoords.push(
+        // Top
+        0.0, 0.0,
+
+        1.0, 0.0,
+        1.0, 1.0,
+
+        1.0, 0.0,
+        1.0, 1.0,
+
+        1.0, 0.0,
+        1.0, 1.0,
+
+        1.0, 0.0,
+        1.0, 1.0,
+
+        // Bottom
+        0.0, 0.0, // center of bottom
+
+        1.0, 0.0,
+        1.0, 1.0,
+
+        1.0, 0.0,
+        1.0, 1.0,
+
+        1.0, 0.0,
+        1.0, 1.0,
+
+        1.0, 0.0,
+        1.0, 1.0,
+    )
+
+    console.log(vertices)
 
     // VERTICES
     // create buffer to store vertex positions (3D points)
@@ -435,6 +552,7 @@ function createCustomVertexArray(gl, position_attrib, normal_attrib, texcoord_at
     // attach vertex_normal_buffer to the normal_attrib
     // (as 3-component floating point values)
     gl.vertexAttribPointer(normal_attrib, 3, gl.FLOAT, false, 0, 0);
+
 
     // TEXCOORDS
     // create buffer to store texture coordinate (2D coordinates for mapping images to the surface)

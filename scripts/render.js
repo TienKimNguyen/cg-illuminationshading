@@ -14,9 +14,9 @@ function init() {
                 models: [
                     {
                         type: 'plane',
-                        shader: 'color',
+                        shader: 'texture',
                         material: {
-                            color: vec3.fromValues(0.7, 0.1, 0.1),  // red, green, blue
+                              color: vec3.fromValues(0.7, 0.1, 0.1),  // red, green, blue
                             specular: vec3.fromValues(0.0, 0.0, 0.0),  // red, green, blue
                             shininess: 1
                         },
@@ -33,10 +33,10 @@ function init() {
                     },
                     {
                         type: 'sphere',
-                        shader: 'color',
+                        shader: 'texture',
                         material: {
-                            color: vec3.fromValues(1.0, 1.0, 1.0),  // red, green, blue
-                            specular: vec3.fromValues(0.5, 1.0, 0.3),  // red, green, blue
+                            color: vec3.fromValues(0.1, 0.4, 0.9),  // red, green, blue
+                            specular: vec3.fromValues(1.0, 1.0, 1.0),  // red, green, blue
                             shininess: 32
                         },
                         center: vec3.fromValues(0.0, 1.0, -6.0), // x, y, z
@@ -51,14 +51,33 @@ function init() {
                         }
                     },
                     {
-                        type: 'color',
+                        type: 'cube',
                         shader: 'texture',
+                        material: {
+                            color: vec3.fromValues(1.0, 0.8, 0.4),  // red, green, blue
+                            specular: vec3.fromValues(1.0, 1.0, 1.0),  // red, green, blue
+                            shininess: 32
+                        },
+                        center: vec3.fromValues(2.0, 0.5, -6.0), // x, y, z
+                        size: vec3.fromValues(1.0, 1.0, 1.0),  // width, height, depth
+                        rotate_x: 0,
+                        rotate_y: 0,
+                        rotate_z: 0,
+                        texture: {
+                            url: "images/Cat.jpg",
+                            scale: vec2.fromValues(1.0, -1.0),
+                            id: null,
+                        }
+                    },
+                    {
+                        type: 'octagon',
+                        shader: 'color',
                         material: {
                             color: vec3.fromValues(1.0, 0.8, 0.4),  // red, green, blue
                             specular: vec3.fromValues(1.0, 1.0, 1.0),  // red, green, blue
                             shininess: 20
                         },
-                        center: vec3.fromValues(2.0, 1.5, -6.0), // x, y, z
+                        center: vec3.fromValues(-2.0, 1.0, -6.0), // x, y, z
                         size: vec3.fromValues(1.0, 1.0, 1.0),  // width, height, depth
                         rotate_x: 0,
                         rotate_y: 0,
@@ -79,12 +98,8 @@ function init() {
                         },
                         {
                             position: vec3.fromValues(-1.5, 3.0, -4.5),  // x, y, z
-                            color: vec3.fromValues(1.0, 0.5, 0.65)  // red, green, blue
+                            color: vec3.fromValues(1.0, 0.0, 0.0)  // red, green, blue
                         },
-                        {
-                            position: vec3.fromValues(-0, 3.0, -4.5),  // x, y, z
-                            color: vec3.fromValues(0.5, 1.0, 0.65)  // red, green, blue
-                        }
                     ]
                 }
             }

@@ -178,23 +178,6 @@ class GlApp {
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
             this.gl.useProgram(this.shader[selected_shader].program);
 
-            // Initialize all of the lights colors and positions
-            let colors = [];
-            let positions = [];
-            for (let j = 0; j < this.scene.light.point_lights.length; j++) {
-                positions[j] = this.scene.light.point_lights[j].position;
-                colors[j] = this.scene.light.point_lights[j].color;
-            }
-            if (10 - this.scene.light.point_lights.length > 0) {
-                for (let k = this.scene.light.point_lights.length; k < 10; k++) {
-                    positions[k] = vec3.fromValues(0.0, 0.0, 0.0);
-                    colors[k] = vec3.fromValues(0.0, 0.0, 0.0);
-                }
-            }
-
-            console.log(colors);
-            console.log(positions);
-            
             // transform model to proper position, size, and orientation
             glMatrix.mat4.identity(this.model_matrix);
             glMatrix.mat4.translate(this.model_matrix, this.model_matrix, this.scene.models[i].center);
@@ -212,30 +195,40 @@ class GlApp {
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.model_matrix, false, this.model_matrix);
 
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_ambient, this.scene.light.ambient);
-           // this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, this.scene.light.point_lights[0].position);
-          //  this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
-            this.gl.uniform3fv(this.shader[selected_shader].uniforms['light_position[10]'], positions);
-            this.gl.uniform3fv(this.shader[selected_shader].uniforms['light_color[10]'], colors);
-
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.camera_position, this.scene.camera.position);
 
+            // Bind array of point lights to the shader
+            for (let j = 0; j < this.scene.light.point_lights.length; j++) {
+                let pos_loc = "light_position[" + j + "]";
+                let color_loc = "light_color[" + j + "]";
+                let position = this.gl.getUniformLocation(this.shader[selected_shader].program, pos_loc);
+                let color = this.gl.getUniformLocation(this.shader[selected_shader].program, color_loc);
+                this.gl.uniform3fv(position, this.scene.light.point_lights[j].position);
+                this.gl.uniform3fv(color, this.scene.light.point_lights[j].color);
+            }
+
+            // Bind the texture associated with each model to the shader
             if (this.scene.models[i].shader == "texture") {
                 this.gl.uniform2fv(this.shader[selected_shader].uniforms.texture_scale, this.scene.models[i].texture.scale);
 
-                let sampler_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
+                let texture_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
 
                 if (this.scene.models[i].type == "plane") {
                     this.gl.activeTexture(this.gl.TEXTURE0);
                     this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
-                    this.gl.uniform1i(sampler_uniform, 0);
+                    this.gl.uniform1i(texture_uniform, 0);
                 } else if (this.scene.models[i].type == "sphere") {
                     this.gl.activeTexture(this.gl.TEXTURE1);
                     this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
-                    this.gl.uniform1i(sampler_uniform, 1);
+                    this.gl.uniform1i(texture_uniform, 1);
                 } else if (this.scene.models[i].type == "cube") {
                     this.gl.activeTexture(this.gl.TEXTURE2);
                     this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
-                    this.gl.uniform1i(sampler_uniform, 2);
+                    this.gl.uniform1i(texture_uniform, 2);
+                } else if (this.scene.models[i].type == "octagon") {
+                    this.gl.activeTexture(this.gl.TEXTURE3);
+                    this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
+                    this.gl.uniform1i(texture_uniform, 3);
                 }
             }
             this.gl.bindVertexArray(this.vertex_array[this.scene.models[i].type]);
