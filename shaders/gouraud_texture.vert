@@ -34,10 +34,11 @@ void main() {
     diffuse = light_ambient * light_color * max(dot(world_normal, light_direction), 0.0);
 
     // Specular
-    vec3 reflection_light = 2.0 * max(dot(world_normal, light_direction), 0.0) * world_normal - light_direction;
-    vec3 view_direction = normalize (camera_position - world_pos);
+    vec3 reflection_light = normalize(2.0 * max(dot(world_normal, light_direction), 0.0) * world_normal - light_direction);
+    vec3 view_direction = normalize(camera_position - world_pos);
     specular = light_ambient * light_color * pow(max(dot(reflection_light, view_direction), 0.0), material_shininess);    
 
-    gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vertex_position, 1.0);
     frag_texcoord = vertex_texcoord * texture_scale;
+    gl_Position = projection_matrix * view_matrix * model_matrix * vec4(vertex_position, 1.0);
+
 }

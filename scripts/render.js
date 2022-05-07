@@ -14,7 +14,7 @@ function init() {
                 models: [
                     {
                         type: 'plane',
-                        shader: 'texture',
+                        shader: 'color',
                         material: {
                             color: vec3.fromValues(0.7, 0.1, 0.1),  // red, green, blue
                             specular: vec3.fromValues(0.0, 0.0, 0.0),  // red, green, blue
@@ -33,10 +33,10 @@ function init() {
                     },
                     {
                         type: 'sphere',
-                        shader: 'texture',
+                        shader: 'color',
                         material: {
-                            color: vec3.fromValues(0.1, 0.4, 0.9),  // red, green, blue
-                            specular: vec3.fromValues(1.0, 1.0, 1.0),  // red, green, blue
+                            color: vec3.fromValues(1.0, 1.0, 1.0),  // red, green, blue
+                            specular: vec3.fromValues(0.5, 1.0, 0.3),  // red, green, blue
                             shininess: 32
                         },
                         center: vec3.fromValues(0.0, 1.0, -6.0), // x, y, z
@@ -51,7 +51,7 @@ function init() {
                         }
                     },
                     {
-                        type: 'cube',
+                        type: 'color',
                         shader: 'texture',
                         material: {
                             color: vec3.fromValues(1.0, 0.8, 0.4),  // red, green, blue
@@ -80,6 +80,10 @@ function init() {
                         {
                             position: vec3.fromValues(-1.5, 3.0, -4.5),  // x, y, z
                             color: vec3.fromValues(1.0, 0.5, 0.65)  // red, green, blue
+                        },
+                        {
+                            position: vec3.fromValues(-0, 3.0, -4.5),  // x, y, z
+                            color: vec3.fromValues(0.5, 1.0, 0.65)  // red, green, blue
                         }
                     ]
                 }
@@ -129,6 +133,7 @@ function init() {
         }
     }
 
+    console.log(scene.$data);
     // event handler for pressing arrow keys
     document.addEventListener('keydown', onKeyDown, false);
 }

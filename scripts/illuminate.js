@@ -178,6 +178,21 @@ class GlApp {
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
             this.gl.useProgram(this.shader[selected_shader].program);
 
+            // Initialize all of the lights colors and positions
+            let colors = [];
+            let positions = [];
+            for (let j = 0; j < this.scene.light.point_lights.length; j++) {
+                positions[j] = this.scene.light.point_lights[j].position;
+                colors[j] = this.scene.light.point_lights[j].color;
+            }
+            if (10 - this.scene.light.point_lights.length > 0) {
+                for (let k = this.scene.light.point_lights.length; k < 10; k++) {
+                    positions[k] = vec3.fromValues(0.0, 0.0, 0.0);
+                    colors[k] = vec3.fromValues(0.0, 0.0, 0.0);
+                }
+            }
+
+
             // transform model to proper position, size, and orientation
             glMatrix.mat4.identity(this.model_matrix);
             glMatrix.mat4.translate(this.model_matrix, this.model_matrix, this.scene.models[i].center);
@@ -195,8 +210,11 @@ class GlApp {
             this.gl.uniformMatrix4fv(this.shader[selected_shader].uniforms.model_matrix, false, this.model_matrix);
 
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_ambient, this.scene.light.ambient);
-            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, this.scene.light.point_lights[0].position);
-            this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
+           // this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, this.scene.light.point_lights[0].position);
+          //  this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, this.scene.light.point_lights[0].color);
+           //   this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_position, positions);
+           //   this.gl.uniform3fv(this.shader[selected_shader].uniforms.light_color, colors);
+
             this.gl.uniform3fv(this.shader[selected_shader].uniforms.camera_position, this.scene.camera.position);
 
             if (this.scene.models[i].shader == "texture") {
