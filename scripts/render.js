@@ -70,8 +70,8 @@ function init() {
                         }
                     },
                     {
-                        type: 'octagon',
-                        shader: 'color',
+                        type: 'custom',
+                        shader: 'texture',
                         material: {
                             color: vec3.fromValues(1.0, 0.8, 0.4),  // red, green, blue
                             specular: vec3.fromValues(1.0, 1.0, 1.0),  // red, green, blue
@@ -83,7 +83,7 @@ function init() {
                         rotate_y: 0,
                         rotate_z: 0,
                         texture: {
-                            url: "images/Cat.jpg",
+                            url: "images/Dog.jpg",
                             scale: vec2.fromValues(1.0, -1.0),
                             id: null,
                         }
