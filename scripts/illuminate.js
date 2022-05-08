@@ -177,7 +177,7 @@ class GlApp {
 
             if (this.vertex_array[this.scene.models[i].type] == null) continue;
             this.gl.useProgram(this.shader[selected_shader].program);
-            
+
             // transform model to proper position, size, and orientation
             glMatrix.mat4.identity(this.model_matrix);
             glMatrix.mat4.translate(this.model_matrix, this.model_matrix, this.scene.models[i].center);
@@ -225,7 +225,7 @@ class GlApp {
                     this.gl.activeTexture(this.gl.TEXTURE2);
                     this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
                     this.gl.uniform1i(texture_uniform, 2);
-                } else if (this.scene.models[i].type == "octagon") {
+                } else if (this.scene.models[i].type == "custom") {
                     this.gl.activeTexture(this.gl.TEXTURE3);
                     this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
                     this.gl.uniform1i(texture_uniform, 3);

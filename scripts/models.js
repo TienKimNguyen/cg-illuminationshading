@@ -406,7 +406,7 @@ function createCustomVertexArray(gl, position_attrib, normal_attrib, texcoord_at
     // create array of 2D texture coordinate values (each set of 2 values specifies texture coordinate: u, v)
     let texcoords = [];
 
-    let radius = 0.5;
+    let radius = 1.0;
     let theta = 360 / 8;
 
     let top_vertices = [0.0, 0.5, 0.0];
