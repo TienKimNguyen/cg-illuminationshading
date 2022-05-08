@@ -84,7 +84,7 @@ function init() {
                         rotate_z: 0,
                         texture: {
                             url: "images/Dog.jpg",
-                            scale: vec2.fromValues(1.0, -1.0),
+                            scale: vec2.fromValues(-1.0, -1.0),
                             id: null,
                         }
                     }

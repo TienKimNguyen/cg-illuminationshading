@@ -409,13 +409,13 @@ function createCustomVertexArray(gl, position_attrib, normal_attrib, texcoord_at
     let radius = 1.0;
     let theta = 360 / 8;
 
-    let top_vertices = [0.0, 0.5, 0.0];
-    let bottom_vertices = [0.0, - 0.5, 0.0];
+    let top_vertices = [0.0, 0.5, 0.0]; // array of vertices of the top side
+    let bottom_vertices = [0.0, - 0.5, 0.0]; // array of vertices of the bottom side
 
-    let top_normals = [0.0, 1.0, 0.0];
-    let bottom_normals = [0.0, -1.0, 0.0];
+    let top_normals = [0.0, 1.0, 0.0]; // array of normals of the top side
+    let bottom_normals = [0.0, -1.0, 0.0]; // array of normals of the bottom side
 
-    // Loop for sides
+    // Loop for 8 sides
     for (let i = 0; i < 8; i++) {
         let x1 = Math.cos((Math.PI / 180) * i * theta) * radius;
         let x2 = Math.cos((Math.PI / 180) * (i + 1) * theta) * radius;
@@ -523,8 +523,6 @@ function createCustomVertexArray(gl, position_attrib, normal_attrib, texcoord_at
         1.0, 0.0,
         1.0, 1.0,
     )
-
-    console.log(vertices)
 
     // VERTICES
     // create buffer to store vertex positions (3D points)
