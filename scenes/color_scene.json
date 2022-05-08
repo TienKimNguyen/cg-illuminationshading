@@ -18,12 +18,7 @@
             "size": [30.0, 1.0, 40.0],
                 "rotate_x": 0,
                 "rotate_y": 0,
-                "rotate_z": 0,
-                "texture": {
-                    "url": "images/Galaxy.jpg",
-                    "scale": [1.0,1.0],
-                    "id": null
-            }
+                "rotate_z": 0
         },
         {
             "type": "sphere",
@@ -37,12 +32,7 @@
             "size": [1.5, 1.5, 1.5],
             "rotate_x": 0,
             "rotate_y": 0,
-            "rotate_z": 0,
-            "texture": {
-                "url": "images/Mars.jpg",
-                "scale": [1.0, -1.0],
-                "id": null
-            }
+            "rotate_z": 0
         },
         {
             "type": "cube",
@@ -56,12 +46,7 @@
             "size": [1.5, 4.0, 1.5],
             "rotate_x": 0,
             "rotate_y": 0,
-            "rotate_z": 0,
-            "texture": {
-                "url": "images/Mars.jpg",
-                "scale": [1.0, -1.0],
-                "id": null
-            } 
+            "rotate_z": 0
         },
         {
             "type": "sphere",
@@ -75,12 +60,7 @@
             "size": [1.5, 1.5, 1.5],
             "rotate_x": 0,
             "rotate_y": 0,
-            "rotate_z": 0,
-            "texture": {
-                "url": "images/Mars.jpg",
-                "scale": [1.0, -1.0],
-                "id": null
-            }
+            "rotate_z": 0
         },
         {
             "type": "cube",
@@ -94,12 +74,7 @@
             "size": [1.5, 2.0, 1.5],
             "rotate_x": 0,
             "rotate_y": 0,
-            "rotate_z": 0,
-            "texture": {
-                "url": "images/Mars.jpg",
-                "scale": [1.0, -1.0],
-                "id": null
-            } 
+            "rotate_z": 0
         },
         {
             "type": "sphere",
@@ -113,12 +88,7 @@
             "size": [1.5, 1.5, 1.5],
             "rotate_x": 0,
             "rotate_y": 0,
-            "rotate_z": 0,
-            "texture": {
-                "url": "images/Mars.jpg",
-                "scale": [1.0, -1.0],
-                "id": null
-            }
+            "rotate_z": 0
         },
         {
             "type": "cube",
@@ -132,12 +102,7 @@
             "size": [1.5, 1.0, 1.5],
             "rotate_x": 0,
             "rotate_y": 0,
-            "rotate_z": 0,
-            "texture": {
-                "url": "images/Mars.jpg",
-                "scale": [1.0, -1.0],
-                "id": null
-            } 
+            "rotate_z": 0
         }
     ],
         "light": {
