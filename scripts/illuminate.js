@@ -210,6 +210,14 @@ class GlApp {
                 this.gl.uniform3fv(color, this.scene.light.point_lights[j].color);
             }
 
+            /*
+                Or we could find the location of the head of the array, thenn pass the whole array of values
+                These values will be orderly assigned to corresponding memory locations
+                
+                let lp = this.gl.getUniformLocation(program, "light_position[0]");
+                this.gl.uniform3fv(lp, new Float32Array([ ... ]))
+            */
+
             // Bind the texture associated with each model to the shader
             if (this.scene.models[i].shader == "texture") {
                 this.gl.uniform2fv(this.shader[selected_shader].uniforms.texture_scale, this.scene.models[i].texture.scale);
@@ -217,8 +225,8 @@ class GlApp {
                 let texture_uniform = this.gl.getUniformLocation(this.shader[selected_shader].program, "image");
 
                 if (this.scene.models[i].type == "plane") {
-                    this.gl.activeTexture(this.gl.TEXTURE0);
-                    this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id);
+                    this.gl.activeTexture(this.gl.TEXTURE0); // choose which slot in the texture lookup table to wrrite to
+                    this.gl.bindTexture(this.gl.TEXTURE_2D, this.scene.models[i].texture.id); // bind the texture to that slot using texture's id
                     this.gl.uniform1i(texture_uniform, 0);
                 } else if (this.scene.models[i].type == "sphere") {
                     this.gl.activeTexture(this.gl.TEXTURE1);
